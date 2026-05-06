@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FinCalcPro</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <img class="brand-logo" src="assets/fincalcpro-logo.svg" alt="FinCalcPro - Ingenieria economica">
+        </div>
+
+        <nav class="module-nav" aria-label="Modulos financieros">
+          <button class="nav-item active" type="button" data-module="dashboard"><span>01</span>Panel</button>
+          <button class="nav-item" type="button" data-module="simple"><span>02</span>Interes simple</button>
+          <button class="nav-item" type="button" data-module="compound"><span>03</span>Interes compuesto</button>
+          <button class="nav-item" type="button" data-module="rates"><span>04</span>Conversion de tasas</button>
+          <button class="nav-item" type="button" data-module="annuity"><span>05</span>Anualidades</button>
+          <button class="nav-item" type="button" data-module="amortization"><span>06</span>Amortizacion</button>
+          <button class="nav-item" type="button" data-module="project"><span>07</span>VPN y TIR</button>
+          <button class="nav-item" type="button" data-module="cashflow"><span>08</span>Flujo de caja</button>
+        </nav>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Simulador financiero web integral</p>
+            <h2 id="module-title">Panel de trabajo</h2>
+          </div>
+          <div class="top-actions">
+            <button class="soft-button" type="button" id="tutorial-button">Tutorial</button>
+            <button class="soft-button" type="button" id="save-scenario-button">Guardar escenario</button>
+            <button class="soft-button" type="button" id="export-button">Exportar CSV</button>
+            <button class="primary-button" type="button" id="reset-button">Restablecer</button>
+          </div>
+        </header>
+
+        <section class="module-page active" id="dashboard" data-title="Panel de trabajo">
+          <div class="dashboard-grid">
+            <article class="metric-panel feature">
+              <span class="metric-label">Modulos activos</span>
+              <strong>7</strong>
+              <p>Calculo, evaluacion, tablas y visualizacion financiera.</p>
+            </article>
+            <article class="metric-panel">
+              <span class="metric-label">Criterio central</span>
+              <strong>VPN/TIR</strong>
+              <p>Comparacion de alternativas con flujos descontados.</p>
+            </article>
+            <article class="metric-panel">
+              <span class="metric-label">Escenarios guardados</span>
+              <strong id="scenario-count">0</strong>
+              <p>Datos persistentes en este navegador.</p>
+            </article>
+          </div>
+
+          <section class="workspace-band">
+            <div>
+              <h3>Tablero del prototipo</h3>
+              <p>FinCalcPro ya permite analizar operaciones financieras y preparar resultados para una demostracion academica.</p>
+            </div>
+            <div class="capability-list">
+              <span>Interes simple y compuesto</span>
+              <span>Conversion equivalente de tasas</span>
+              <span>Anualidades y funcion Pago</span>
+              <span>Amortizacion francesa, alemana y americana</span>
+              <span>VPN, TIR y sensibilidad</span>
+              <span>Diagrama de flujo de caja</span>
+              <span>Exportacion CSV</span>
+            </div>
+          </section>
+
+          <section class="saved-panel">
+            <div class="panel-heading">
+              <h3>Escenarios</h3>
+              <button class="text-button" type="button" id="clear-scenarios-button">Limpiar</button>
+            </div>
+            <div class="saved-list" id="saved-list"></div>
+          </section>
+        </section>
+
+        <section class="module-page" id="simple" data-title="Interes simple">
+          <form class="calculator-form" data-calculator="simple">
+            <div class="input-grid">
+              <label>Capital inicial
+                <input name="principal" type="number" min="0" step="1000" value="5000000">
+              </label>
+              <label>Tasa por periodo (%)
+                <input name="rate" type="number" step="0.01" value="2.5">
+              </label>
+              <label>Numero de periodos
+                <input name="periods" type="number" min="0" step="1" value="12">
+              </label>
+            </div>
+            <p class="validation" id="simple-validation"></p>
+          </form>
+          <div class="result-layout">
+            <div class="result-panel" id="simple-result"></div>
+            <div class="steps-panel" id="simple-steps"></div>
+          </div>
+          <canvas class="chart-canvas" id="simple-chart" width="940" height="300" aria-label="Grafica de interes simple"></canvas>
+        </section>
+
+        <section class="module-page" id="compound" data-title="Interes compuesto">
+          <form class="calculator-form" data-calculator="compound">
+            <div class="input-grid">
+              <label>Capital inicial
+                <input name="principal" type="number" min="0" step="1000" value="5000000">
+              </label>
+              <label>Tasa por periodo (%)
+                <input name="rate" type="number" step="0.01" value="2.5">
+              </label>
+              <label>Numero de periodos
+                <input name="periods" type="number" min="0" step="1" value="12">
+              </label>
+            </div>
+            <p class="validation" id="compound-validation"></p>
+          </form>
+          <div class="result-layout">
+            <div class="result-panel" id="compound-result"></div>
+            <div class="steps-panel" id="compound-steps"></div>
+          </div>
+          <canvas class="chart-canvas" id="compound-chart" width="940" height="300" aria-label="Grafica de interes compuesto"></canvas>
+        </section>
+
+        <section class="module-page" id="rates" data-title="Conversion de tasas">
+          <form class="calculator-form" data-calculator="rates">
+            <div class="input-grid">
+              <label>Tasa efectiva origen (%)
+                <input name="rate" type="number" step="0.01" value="3">
+              </label>
+              <label>Periodos origen por ano
+                <select name="sourceFrequency">
+                  <option value="1">Anual</option>
+                  <option value="2">Semestral</option>
+                  <option value="4">Trimestral</option>
+                  <option value="12" selected>Mensual</option>
+                  <option value="360">Diaria</option>
+                </select>
+              </label>
+              <label>Periodos destino por ano
+                <select name="targetFrequency">
+                  <option value="1" selected>Anual</option>
+                  <option value="2">Semestral</option>
+                  <option value="4">Trimestral</option>
+                  <option value="12">Mensual</option>
+                  <option value="360">Diaria</option>
+                </select>
+              </label>
+            </div>
+            <p class="validation" id="rates-validation"></p>
+          </form>
+          <div class="result-layout">
+            <div class="result-panel" id="rates-result"></div>
+            <div class="steps-panel" id="rates-steps"></div>
+          </div>
+        </section>
+
+        <section class="module-page" id="annuity" data-title="Anualidades y Pago">
+          <form class="calculator-form" data-calculator="annuity">
+            <div class="input-grid">
+              <label>Valor futuro objetivo
+                <input name="futureValue" type="number" min="0" step="1000" value="8500000">
+              </label>
+              <label>Tasa por periodo (%)
+                <input name="rate" type="number" step="0.01" value="2.5">
+              </label>
+              <label>Numero de periodos
+                <input name="periods" type="number" min="1" step="1" value="24">
+              </label>
+              <label>Momento del deposito
+                <select name="timing">
+                  <option value="end" selected>Final de cada periodo</option>
+                  <option value="beginning">Inicio de cada periodo</option>
+                </select>
+              </label>
+            </div>
+            <p class="validation" id="annuity-validation"></p>
+          </form>
+          <div class="result-layout">
+            <div class="result-panel" id="annuity-result"></div>
+            <div class="steps-panel" id="annuity-steps"></div>
+          </div>
+          <canvas class="cashflow-canvas" id="annuity-canvas" width="940" height="360" aria-label="Diagrama de anualidad"></canvas>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Periodo</th>
+                  <th>Deposito</th>
+                  <th>Interes</th>
+                  <th>Saldo acumulado</th>
+                </tr>
+              </thead>
+              <tbody id="annuity-table"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="module-page" id="amortization" data-title="Amortizacion">
+          <form class="calculator-form" data-calculator="amortization">
+            <div class="input-grid">
+              <label>Sistema
+                <select name="method">
+                  <option value="french" selected>Frances - cuota fija</option>
+                  <option value="german">Aleman - abono fijo</option>
+                  <option value="american">Americano - intereses periodicos</option>
+                </select>
+              </label>
+              <label>Monto del prestamo
+                <input name="loan" type="number" min="0" step="1000" value="12000000">
+              </label>
+              <label>Tasa por periodo (%)
+                <input name="rate" type="number" step="0.01" value="1.8">
+              </label>
+              <label>Numero de cuotas
+                <input name="periods" type="number" min="1" step="1" value="12">
+              </label>
+            </div>
+            <p class="validation" id="amortization-validation"></p>
+          </form>
+          <div class="result-panel wide" id="amortization-result"></div>
+          <canvas class="chart-canvas" id="amortization-chart" width="940" height="300" aria-label="Grafica de amortizacion"></canvas>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Periodo</th>
+                  <th>Cuota</th>
+                  <th>Interes</th>
+                  <th>Abono</th>
+                  <th>Saldo</th>
+                </tr>
+              </thead>
+              <tbody id="amortization-table"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="module-page" id="project" data-title="VPN, TIR y alternativas">
+          <form class="calculator-form" data-calculator="project">
+            <div class="input-grid">
+              <label>Tasa de oportunidad (%)
+                <input name="discountRate" type="number" step="0.01" value="12">
+              </label>
+              <label>Alternativa A
+                <input name="flowA" type="text" value="-10000000, 3200000, 3400000, 3600000, 4000000">
+              </label>
+              <label>Alternativa B
+                <input name="flowB" type="text" value="-8500000, 2500000, 3000000, 3200000, 3600000">
+              </label>
+            </div>
+            <p class="validation" id="project-validation"></p>
+          </form>
+          <div class="result-layout">
+            <div class="result-panel" id="project-result"></div>
+            <div class="steps-panel" id="project-steps"></div>
+          </div>
+          <canvas class="chart-canvas" id="project-chart" width="940" height="300" aria-label="Grafica comparativa de alternativas"></canvas>
+          <canvas class="chart-canvas" id="sensitivity-chart" width="940" height="300" aria-label="Grafica de sensibilidad"></canvas>
+        </section>
+
+        <section class="module-page" id="cashflow" data-title="Flujo de caja">
+          <form class="calculator-form" data-calculator="cashflow">
+            <div class="input-grid">
+              <label>Inversion inicial
+                <input name="initial" type="number" step="1000" value="-10000000">
+              </label>
+              <label>Ingreso periodico
+                <input name="payment" type="number" step="1000" value="3000000">
+              </label>
+              <label>Periodos
+                <input name="periods" type="number" min="1" max="12" step="1" value="5">
+              </label>
+              <label>Crecimiento por periodo (%)
+                <input name="growth" type="number" step="0.01" value="4">
+              </label>
+              <label>Tasa de descuento (%)
+                <input name="discountRate" type="number" step="0.01" value="12">
+              </label>
+            </div>
+            <p class="validation" id="cashflow-validation"></p>
+          </form>
+          <canvas class="cashflow-canvas" id="cashflow-canvas" width="940" height="360" aria-label="Diagrama de flujo de caja"></canvas>
+          <div class="result-panel wide" id="cashflow-result"></div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Periodo</th>
+                  <th>Flujo</th>
+                  <th>Valor presente</th>
+                </tr>
+              </thead>
+              <tbody id="cashflow-table"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="tour-overlay" id="tour-overlay" hidden></div>
+    <div class="tour-spotlight" id="tour-spotlight" hidden></div>
+    <section class="tour-card" id="tour-card" hidden aria-live="polite" aria-label="Tutorial guiado">
+      <div class="tour-progress" id="tour-progress"></div>
+      <p class="tour-kicker" id="tour-kicker"></p>
+      <h3 id="tour-title"></h3>
+      <p id="tour-text"></p>
+      <div class="tour-actions">
+        <button class="tour-button secondary" type="button" id="tour-prev">&lt; Anterior</button>
+        <button class="tour-button secondary" type="button" id="tour-close">Cerrar</button>
+        <button class="tour-button primary" type="button" id="tour-next">Siguiente &gt;</button>
+      </div>
+    </section>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

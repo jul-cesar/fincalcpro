@@ -1,0 +1,16 @@
+# Local system files
+Thumbs.db
+Desktop.ini
+
+# Editor folders
+.vscode/
+.idea/
+
+# Temporary QA artifacts
+*.png
+*.log
+
+# Dependency folders, in case the project later adds tooling
+node_modules/
+dist/
+build/
