@@ -21,14 +21,4 @@ MVP funcional de una plataforma web para ingeniería económica.
 
 Abre `index.html` en un navegador moderno. No requiere instalación, servidor local ni dependencias externas.
 
-## Marca
 
-El logo vectorial esta en `assets/fincalcpro-logo.svg`.
-
-## Próximas mejoras sugeridas
-
-- Exportación de resultados a PDF o Excel.
-- Amortización alemana y americana.
-- Guardado de escenarios.
-- Validaciones académicas con ejercicios de referencia.
-- Modo docente con explicación ampliada de fórmulas.
