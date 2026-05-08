@@ -14,3 +14,8 @@ Desktop.ini
 node_modules/
 dist/
 build/
+
+# Secrets
+.env
+.env.local
+.env.*.local
