@@ -52,7 +52,7 @@ export default function AnnuitiesPage() {
     {
       label: "Deposito periodico",
       value: formatCurrency.format(result.payment),
-      tone: "positive",
+      tone: "positive" as const,
     },
     {
       label: "Total depositado",
@@ -61,7 +61,7 @@ export default function AnnuitiesPage() {
     {
       label: "Intereses ganados",
       value: formatCurrency.format(result.totalInterest),
-      tone: "positive",
+      tone: "positive" as const,
     },
     {
       label: "Saldo final",

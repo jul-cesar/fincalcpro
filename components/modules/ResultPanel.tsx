@@ -1,7 +1,7 @@
 type ResultItem = {
   label: string
   value: string
-  tone?: "positive" | "negative"
+  tone?: string
 }
 
 type ResultPanelProps = {
