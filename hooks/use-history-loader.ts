@@ -1,7 +1,7 @@
 "use client"
 
+import type { Dispatch, SetStateAction } from "react"
 import { useEffect } from "react"
-import { useSearchParams } from "next/navigation"
 
 type HistoryResponse<TInput extends Record<string, string>> = {
   record?: {
@@ -13,13 +13,12 @@ type HistoryResponse<TInput extends Record<string, string>> = {
 
 export function useHistoryLoader<TInput extends Record<string, string>>(
   moduleId: string,
-  onApplyInput: (input: TInput) => void
+  onApplyInput: Dispatch<SetStateAction<TInput>>
 ) {
-  const searchParams = useSearchParams()
-  const historyId = searchParams.get("historyId")
-
   useEffect(() => {
     async function loadFromHistory() {
+      const searchParams = new URLSearchParams(window.location.search)
+      const historyId = searchParams.get("historyId")
       if (!historyId) return
 
       try {
@@ -34,5 +33,5 @@ export function useHistoryLoader<TInput extends Record<string, string>>(
     }
 
     loadFromHistory()
-  }, [historyId, moduleId, onApplyInput])
+  }, [moduleId, onApplyInput])
 }
