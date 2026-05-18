@@ -19,6 +19,29 @@ export async function GET(request: Request) {
 
   const { searchParams } = new URL(request.url)
   const moduleParam = searchParams.get("module")
+  const limitParam = Number(searchParams.get("limit") ?? "50")
+  const limit = Number.isFinite(limitParam) ? Math.max(1, Math.min(100, Math.floor(limitParam))) : 50
+
+  if (!moduleParam) {
+    const records = await db
+      .select({
+        id: exerciseHistory.id,
+        module: exerciseHistory.module,
+        exerciseType: exerciseHistory.exerciseType,
+        title: exerciseHistory.title,
+        input: exerciseHistory.input,
+        inputHash: exerciseHistory.inputHash,
+        createdAt: exerciseHistory.createdAt,
+        updatedAt: exerciseHistory.updatedAt,
+      })
+      .from(exerciseHistory)
+      .where(eq(exerciseHistory.userId, session.user.id))
+      .orderBy(desc(exerciseHistory.updatedAt))
+      .limit(limit)
+
+    return NextResponse.json({ records })
+  }
+
   const moduleParsed = exerciseModuleSchema.safeParse(moduleParam)
 
   if (!moduleParsed.success) {
@@ -44,7 +67,7 @@ export async function GET(request: Request) {
       )
     )
     .orderBy(desc(exerciseHistory.updatedAt))
-    .limit(50)
+    .limit(limit)
 
   return NextResponse.json({ records })
 }

@@ -12,6 +12,7 @@ import { SimpleLineChart } from "@/components/modules/SimpleLineChart"
 import { StepsPanel } from "@/components/modules/StepsPanel"
 import { compoundInterest } from "@/lib/finance"
 import { formatCurrency, formatNumber } from "@/lib/format"
+import { useHistoryLoader } from "@/hooks/use-history-loader"
 
 type FormState = {
   principal: string
@@ -27,6 +28,7 @@ export default function CompoundInterestPage() {
     rate: "2.5",
     periods: "12",
   })
+  useHistoryLoader("compound", setState)
 
   const principal = Number(state.principal || 0)
   const rate = Number(state.rate || 0)

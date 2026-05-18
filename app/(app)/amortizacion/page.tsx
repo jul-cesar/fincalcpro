@@ -14,6 +14,7 @@ import { StepsPanel } from "@/components/modules/StepsPanel"
 import { Table } from "@/components/modules/Table"
 import { amortization } from "@/lib/finance"
 import { formatCurrency, formatNumber } from "@/lib/format"
+import { useHistoryLoader } from "@/hooks/use-history-loader"
 
 type FormState = {
   method: string
@@ -38,6 +39,7 @@ export default function AmortizationPage() {
     rate: "1.8",
     periods: "12",
   })
+  useHistoryLoader("amortization", setState)
 
   const loan = Number(state.loan || 0)
   const rate = Number(state.rate || 0)

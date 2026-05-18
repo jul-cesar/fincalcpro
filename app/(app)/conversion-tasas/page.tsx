@@ -12,6 +12,7 @@ import { SelectField } from "@/components/modules/SelectField"
 import { StepsPanel } from "@/components/modules/StepsPanel"
 import { convertEffectiveRate } from "@/lib/finance"
 import { asPercent, formatNumber } from "@/lib/format"
+import { useHistoryLoader } from "@/hooks/use-history-loader"
 
 type FormState = {
   rate: string
@@ -34,6 +35,7 @@ export default function RateConversionPage() {
     sourceFrequency: "12",
     targetFrequency: "1",
   })
+  useHistoryLoader("rates", setState)
 
   const rate = Number(state.rate || 0)
   const sourceFrequency = Number(state.sourceFrequency || 1)
