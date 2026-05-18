@@ -87,8 +87,8 @@ export function SidebarFooterActions() {
         )}
       </SidebarMenuItem>
       <SidebarMenuItem>
-        <div className="flex w-full items-center justify-between rounded-xl border border-sidebar-border/70 bg-sidebar-accent/30 px-2.5 py-2">
-          <div className="flex items-center gap-2 text-xs text-sidebar-foreground/80">
+        <div className="flex w-full items-center justify-between rounded-xl border border-sidebar-border/70 bg-sidebar-accent/30 px-2.5 py-2 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-1.5">
+          <div className="flex items-center gap-2 text-xs text-sidebar-foreground/80 group-data-[collapsible=icon]:hidden">
             <MonitorCog className="size-3.5" />
             <span className="font-medium">Tema</span>
           </div>
