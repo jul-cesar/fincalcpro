@@ -204,7 +204,7 @@ export default function AssistantPage() {
           id: crypto.randomUUID(),
           role: "assistant",
           content:
-            "No pude responder con IA en este momento. Revisa la clave GEMINI_API_KEY o intenta de nuevo en unos segundos.",
+            "No pude responder en este momento. Intenta de nuevo en unos segundos.",
           meta: "Error de conexion",
         },
       ])
@@ -475,7 +475,7 @@ export default function AssistantPage() {
                 className="min-h-24 resize-none rounded-2xl border border-transparent bg-input/40 px-4 py-3 text-sm outline-none transition focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30"
               />
               <div className="flex items-center justify-between gap-3">
-                <p className="text-xs text-muted-foreground">La clave de Gemini se usa solo desde el servidor.</p>
+                <p className="text-xs text-muted-foreground">Describe el ejercicio con valores, tasa, plazo y condiciones de pago.</p>
                 <Button type="submit" disabled={isLoading || !input.trim()} size="lg">
                   {isLoading ? <Loader2 className="animate-spin" /> : <Send />}
                   Enviar
