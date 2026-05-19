@@ -13,6 +13,7 @@ import { StepsPanel } from "@/components/modules/StepsPanel"
 import { Table } from "@/components/modules/Table"
 import { cashflowSeries, internalRateOfReturn, netPresentValue } from "@/lib/finance"
 import { asPercent, formatCurrency, formatNumber } from "@/lib/format"
+import { useAutofillLoader } from "@/hooks/use-autofill-loader"
 import { useHistoryLoader } from "@/hooks/use-history-loader"
 
 type FormState = {
@@ -35,6 +36,7 @@ export default function CashflowPage() {
     discountRate: "12",
   })
   useHistoryLoader("cashflow", setState)
+  useAutofillLoader("cashflow", setState)
 
   const initial = Number(state.initial || 0)
   const payment = Number(state.payment || 0)

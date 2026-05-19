@@ -12,6 +12,7 @@ import { StepsPanel } from "@/components/modules/StepsPanel"
 import { SimpleLineChart } from "@/components/modules/SimpleLineChart"
 import { simpleInterest } from "@/lib/finance"
 import { formatCurrency, formatNumber } from "@/lib/format"
+import { useAutofillLoader } from "@/hooks/use-autofill-loader"
 import { useHistoryLoader } from "@/hooks/use-history-loader"
 
 type FormState = {
@@ -29,6 +30,7 @@ export default function SimpleInterestPage() {
     periods: "12",
   })
   useHistoryLoader("simple", setState)
+  useAutofillLoader("simple", setState)
 
   const principal = Number(state.principal || 0)
   const rate = Number(state.rate || 0)

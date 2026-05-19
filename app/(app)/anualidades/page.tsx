@@ -14,6 +14,7 @@ import { StepsPanel } from "@/components/modules/StepsPanel"
 import { Table } from "@/components/modules/Table"
 import { annuityPayment } from "@/lib/finance"
 import { formatCurrency, formatNumber } from "@/lib/format"
+import { useAutofillLoader } from "@/hooks/use-autofill-loader"
 import { useHistoryLoader } from "@/hooks/use-history-loader"
 
 type FormState = {
@@ -39,6 +40,7 @@ export default function AnnuitiesPage() {
     timing: "end",
   })
   useHistoryLoader("annuity", setState)
+  useAutofillLoader("annuity", setState)
 
   const futureValue = Number(state.futureValue || 0)
   const rate = Number(state.rate || 0)

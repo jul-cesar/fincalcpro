@@ -130,3 +130,59 @@ export const exerciseHistoryRelations = relations(exerciseHistory, ({ one }) => 
     references: [user.id],
   }),
 }));
+
+export const chatSession = pgTable(
+  "chat_session",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    title: text("title").notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+      .defaultNow()
+      .$onUpdate(() => /* @__PURE__ */ new Date())
+      .notNull(),
+  },
+  (table) => [
+    index("chat_session_user_id_idx").on(table.userId),
+    index("chat_session_updated_at_idx").on(table.updatedAt),
+  ],
+);
+
+export const chatMessage = pgTable(
+  "chat_message",
+  {
+    id: text("id").primaryKey(),
+    chatId: text("chat_id")
+      .notNull()
+      .references(() => chatSession.id, { onDelete: "cascade" }),
+    role: text("role").notNull(),
+    content: text("content").notNull(),
+    meta: text("meta"),
+    sections: jsonb("sections").$type<Record<string, unknown>[]>().default([]).notNull(),
+    suggestion: jsonb("suggestion").$type<Record<string, unknown> | null>(),
+    checks: jsonb("checks").$type<Record<string, unknown>[]>().default([]).notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("chat_message_chat_id_idx").on(table.chatId),
+    index("chat_message_created_at_idx").on(table.createdAt),
+  ],
+);
+
+export const chatSessionRelations = relations(chatSession, ({ one, many }) => ({
+  user: one(user, {
+    fields: [chatSession.userId],
+    references: [user.id],
+  }),
+  messages: many(chatMessage),
+}));
+
+export const chatMessageRelations = relations(chatMessage, ({ one }) => ({
+  chat: one(chatSession, {
+    fields: [chatMessage.chatId],
+    references: [chatSession.id],
+  }),
+}));

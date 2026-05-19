@@ -14,6 +14,7 @@ import { Table } from "@/components/modules/Table"
 import { TextareaField } from "@/components/modules/TextareaField"
 import { internalRateOfReturn, netPresentValue, parseFlows } from "@/lib/finance"
 import { asPercent, formatCurrency, formatNumber } from "@/lib/format"
+import { useAutofillLoader } from "@/hooks/use-autofill-loader"
 import { useHistoryLoader } from "@/hooks/use-history-loader"
 
 type FormState = {
@@ -32,6 +33,7 @@ export default function NpvIrrPage() {
     flowB: "-8500000, 2500000, 3000000, 3200000, 3600000",
   })
   useHistoryLoader("project", setState)
+  useAutofillLoader("project", setState)
 
   const discountRate = Number(state.discountRate || 0)
 
