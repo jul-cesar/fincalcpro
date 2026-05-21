@@ -69,6 +69,13 @@ const quickPrompts = [
   "Cuanto debo depositar cada mes durante 24 meses al 2.5% mensual para reunir 8.500.000?",
   "Tengo dos alternativas de inversion y quiero calcular VPN y TIR.",
   "Necesito una tabla de amortizacion para un prestamo con tasa mensual.",
+  "Inverti 5.000.000 al 2% mensual durante 12 meses con interes simple. Cual es el monto final?",
+  "Si deposito 3.000.000 al 1.8% mensual durante 18 meses con interes compuesto, cuanto tendre al final?",
+  "Convierte una tasa efectiva mensual del 2.5% a una tasa efectiva anual.",
+  "Cuanto debo depositar al inicio de cada mes para reunir 12.000.000 en 18 meses al 1.7% mensual?",
+  "Compara amortizacion francesa y alemana para un prestamo de 20.000.000 al 1.6% mensual en 24 cuotas.",
+  "Evalua un proyecto con inversion inicial de 15.000.000 y flujos de 4.000.000, 5.000.000, 6.000.000 y 7.000.000 con tasa del 12%.",
+  "Proyecta un flujo de caja con inversion inicial de 10.000.000, pagos de 3.000.000, crecimiento del 4% y tasa de descuento del 12%.",
 ]
 
 const moduleLinks = [
